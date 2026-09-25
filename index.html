@@ -1,0 +1,707 @@
+<title>POP Gestão 01/02</title>
+<style>
+  :root{
+    --bg:#f4f6f8; --surface:#ffffff; --surface-2:#f9fafb; --border:#e1e5eb;
+    --text:#1c2733; --muted:#5c6673; --muted-2:#7c8592;
+    --navy:#122c48; --navy-2:#1c4a73; --accent:#2f6fa8; --accent-ink:#eaf2fa;
+    --red-bg:#fdecea; --red-text:#a8362a; --red-border:#f2c7c1;
+    --amber-bg:#fdf3d8; --amber-text:#8a5b06; --amber-border:#f0d998;
+    --green-bg:#e6f4e9; --green-text:#276b3c; --green-border:#c1e2c9;
+    --blue-bg:#e8f2fa; --blue-text:#1f5b8a; --blue-border:#c3ddf0;
+    --dark-slate:#3a4a5c;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1620; --surface:#161f2b; --surface-2:#1b2530; --border:#2b3644;
+      --text:#e7ebf0; --muted:#aab3c0; --muted-2:#8b95a3;
+      --navy:#0d2136; --navy-2:#2a5b89; --accent:#5ea1dd; --accent-ink:#0d2136;
+      --red-bg:#3a1e1c; --red-text:#f2a89e; --red-border:#5c2b26;
+      --amber-bg:#3a2f13; --amber-text:#f0cd7a; --amber-border:#5c4a1c;
+      --green-bg:#173225; --green-text:#8fd6a6; --green-border:#265139;
+      --blue-bg:#152c40; --blue-text:#8fc2ec; --blue-border:#254a6b;
+      --dark-slate:#5c6f85;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1620; --surface:#161f2b; --surface-2:#1b2530; --border:#2b3644;
+    --text:#e7ebf0; --muted:#aab3c0; --muted-2:#8b95a3;
+    --navy:#0d2136; --navy-2:#2a5b89; --accent:#5ea1dd; --accent-ink:#0d2136;
+    --red-bg:#3a1e1c; --red-text:#f2a89e; --red-border:#5c2b26;
+    --amber-bg:#3a2f13; --amber-text:#f0cd7a; --amber-border:#5c4a1c;
+    --green-bg:#173225; --green-text:#8fd6a6; --green-border:#265139;
+    --blue-bg:#152c40; --blue-text:#8fc2ec; --blue-border:#254a6b;
+    --dark-slate:#5c6f85;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body{
+    background: var(--bg); color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    padding: 0 16px; padding-block: 0;
+  }
+  .wrap{ max-width: 900px; margin: 0 auto; }
+  a{ color: var(--accent); }
+  h1,h2,h3{ text-wrap: balance; }
+
+  /* top bar */
+  .topbar{
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--navy); color: #eef3f8;
+    display:flex; align-items:center; gap:10px;
+    padding: 10px 16px; margin: 0 -16px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    font-size: 12.5px;
+  }
+  .topbar .f{ width:22px;height:22px;border-radius:5px;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--accent-ink);flex:none;}
+  .topbar b{ font-weight:600; }
+  .topbar .sep{ opacity:.5; }
+  .topbar .right{ margin-left:auto; opacity:.75; font-size:11px; white-space:nowrap; }
+  .nav{
+    display:flex; gap:6px; overflow-x:auto; padding: 10px 0 14px;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .nav::-webkit-scrollbar{ display:none; }
+  .nav a{
+    flex:none; font-size:12px; padding:6px 10px; border-radius:20px;
+    background: var(--surface); border:1px solid var(--border); color:var(--muted);
+    text-decoration:none; white-space:nowrap;
+  }
+
+  /* hero */
+  .hero{ background: var(--navy); color:#fff; border-radius:14px; padding:28px 24px; margin-top:18px; }
+  .eyebrow{ color:#9fc3e6; font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; }
+  .hero h1{
+    font-family:"Source Serif 4", Georgia, serif; font-size: clamp(40px,9vw,64px);
+    margin:6px 0 4px; letter-spacing:.01em; font-weight:600;
+  }
+  .hero .sub{ font-size:17px; font-weight:500; color:#dfe9f3; }
+  .hero-strip{
+    margin-top:18px; background: var(--navy-2); border-radius:10px; padding:12px 16px;
+  }
+  .hero-strip .tag{ font-weight:700; font-size:16px; }
+  .hero-strip .tagline{ font-style:italic; font-size:13px; color:#cfe0ee; margin-top:2px; }
+
+  .infobar{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    background: var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden;
+    margin-top:16px;
+  }
+  .infobar div{ padding:10px 14px; border-right:1px solid var(--border); }
+  .infobar div:last-child{ border-right:none; }
+  .infobar .k{ font-size:11px; color:var(--muted-2); text-transform:uppercase; letter-spacing:.04em; }
+  .infobar .v{ font-size:13.5px; font-weight:600; margin-top:2px; }
+  @media (max-width:640px){ .infobar{ grid-template-columns:repeat(2,1fr);} .infobar div{ border-bottom:1px solid var(--border);} }
+
+  /* callouts */
+  .callout{ display:flex; gap:12px; border-radius:10px; padding:14px 16px; border:1px solid; margin:14px 0; }
+  .callout .ic{ font-size:18px; flex:none; line-height:1.3; }
+  .callout .t{ font-weight:700; font-size:13px; margin-bottom:3px; }
+  .callout .d{ font-size:13.5px; line-height:1.5; }
+  .callout.red{ background:var(--red-bg); border-color:var(--red-border); color:var(--red-text); }
+  .callout.amber{ background:var(--amber-bg); border-color:var(--amber-border); color:var(--amber-text); }
+  .callout.green{ background:var(--green-bg); border-color:var(--green-border); color:var(--green-text); }
+  .callout.blue{ background:var(--blue-bg); border-color:var(--blue-border); color:var(--blue-text); }
+  .callout .d{ color:var(--text); }
+  .callout.red .t{ color:var(--red-text);} .callout.amber .t{ color:var(--amber-text);}
+  .callout.green .t{ color:var(--green-text);} .callout.blue .t{ color:var(--blue-text);}
+
+  /* legend */
+  .legend{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:12px 0 20px; }
+  .legend div{ background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-size:12px; font-weight:600; }
+  @media (max-width:640px){ .legend{ grid-template-columns:repeat(2,1fr);} }
+
+  /* sections */
+  section.sec{ margin-top:40px; scroll-margin-top:110px; }
+  .sec-head{
+    background: var(--navy-2); color:#fff; border-radius:10px;
+    padding:12px 16px; display:flex; align-items:center; gap:10px; font-size:17px; font-weight:700;
+  }
+  .sec-head .num{ background:rgba(255,255,255,.18); width:26px;height:26px;border-radius:6px;
+    display:flex;align-items:center;justify-content:center; font-size:13px; flex:none;}
+  .sec-sub{ background:var(--surface-2); border:1px solid var(--border); border-top:none; border-radius:0 0 10px 10px;
+    padding:10px 16px; font-style:italic; color:var(--muted); font-size:13px; margin-bottom:16px; }
+
+  h3.subhead{ font-size:14.5px; margin:22px 0 8px; color:var(--navy-2); }
+  :root[data-theme="dark"] h3.subhead, @media (prefers-color-scheme:dark){ h3.subhead{ color:#7fb3e0; } }
+
+  p{ font-size:13.5px; line-height:1.6; color:var(--text); }
+  .muted{ color:var(--muted); }
+
+  /* tables */
+  .tbl-wrap{ overflow-x:auto; margin:10px 0 6px; border:1px solid var(--border); border-radius:10px; }
+  table{ width:100%; border-collapse:collapse; font-size:12.8px; min-width:520px; }
+  thead th{ background:var(--navy); color:#fff; text-align:left; padding:9px 12px; font-weight:600; font-size:11.5px; text-transform:uppercase; letter-spacing:.02em; }
+  tbody td{ padding:9px 12px; border-top:1px solid var(--border); vertical-align:top; }
+  tbody tr:nth-child(even){ background: var(--surface-2); }
+  td.step{ background:var(--navy-2); color:#fff; font-weight:700; text-align:center; width:26px; }
+  td.who{ color:var(--muted); white-space:nowrap; }
+
+  /* day cards */
+  .days{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .day{ display:flex; border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--surface); }
+  .day .tab{ flex:none; width:88px; color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:10px; font-weight:700; font-size:12px; text-align:center; }
+  .day .tab .ic{ font-size:18px; }
+  .day .body{ padding:12px 14px; flex:1; }
+  .day ol{ margin:0; padding-left:18px; font-size:13px; line-height:1.65; }
+  .day.seg .tab{ background:#122c48; } .day.ter .tab{ background:#2f6fa8; }
+  .day.qua .tab{ background:#2f7d4f; } .day.qui .tab{ background:#c1682b; }
+  .day.sex .tab{ background:var(--dark-slate); }
+
+  /* folder path */
+  .path{ font-family:"IBM Plex Mono", monospace; font-size:12px; background:var(--surface-2); border:1px solid var(--border);
+    border-radius:8px; padding:10px 12px; margin:6px 0 12px; line-height:1.7; color:var(--text); }
+
+  ul.plain{ padding-left:18px; font-size:13.5px; line-height:1.7; }
+  ul.plain li{ margin-bottom:2px; }
+
+  .email-card{ border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:10px 0; }
+  .email-card .hd{ background:var(--surface-2); border-bottom:1px solid var(--border); padding:9px 14px; font-size:12px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--muted); }
+  .email-card .bd{ padding:14px; font-size:13.5px; line-height:1.7; background:var(--surface); }
+  .email-card .bd em{ color: var(--muted); }
+
+  .foot{ text-align:center; color:var(--muted-2); font-size:11.5px; padding:36px 0 24px; }
+
+  @media (max-width:520px){
+    .day{ flex-direction:row; }
+    .day .tab{ width:64px; }
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+<div class="topbar">
+  <div class="f">F</div>
+  <b>FILTRATECH AMBIENTAL</b><span class="sep">|</span>POP — Gestão 01 e Gestão 02
+  <div class="right">Uso Interno Restrito</div>
+</div>
+
+<div class="wrap">
+  <nav class="nav">
+    <a href="#sec1">1. Rotina Diária</a>
+    <a href="#sec2">2. Google Drive</a>
+    <a href="#sec3">3. Fechamento Mensal</a>
+    <a href="#sec4">4. SISAGUA</a>
+    <a href="#sec5">5. Faturamento</a>
+    <a href="#sec6">6. E-mail Cliente</a>
+    <a href="#sec7">7. Acionar Fernando</a>
+    <a href="#sec8">8. Modelos WhatsApp</a>
+    <a href="#sec9">9. Perfis Especiais</a>
+    <a href="#sec10">10. Fluxo Semestral</a>
+    <a href="#sec11">11. Prioridades</a>
+  </nav>
+
+  <div class="hero">
+    <div class="eyebrow">Filtratech Ambiental</div>
+    <h1>POP</h1>
+    <div class="sub">Procedimento Operacional Padrão</div>
+    <div class="hero-strip">
+      <div class="tag">Gestão 01 · Gestão 02</div>
+      <div class="tagline">Manual operacional para colaboradoras responsáveis pelas carteiras de clientes</div>
+    </div>
+  </div>
+
+  <div class="infobar">
+    <div><div class="k">Versão</div><div class="v">1.1 — 2026</div></div>
+    <div><div class="k">Carteiras</div><div class="v">39 + 39 clientes</div></div>
+    <div><div class="k">Revisão</div><div class="v">A cada 6 meses</div></div>
+    <div><div class="k">Tipo</div><div class="v">Uso Interno</div></div>
+  </div>
+
+  <div class="callout blue">
+    <div class="ic">🧭</div>
+    <div><div class="t">Como usar este manual</div>
+    <div class="d">Este documento usa um sistema de cores e símbolos para facilitar o aprendizado. Você não precisa memorizar tudo — use como consulta sempre que tiver dúvida.</div></div>
+  </div>
+  <div class="legend">
+    <div>🔴 URGENTE — acionar agora</div>
+    <div>🟡 ATENÇÃO — verificar</div>
+    <div>🟢 OK — pode prosseguir</div>
+    <div>📁 Caminho no Drive</div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <section class="sec" id="sec1">
+    <div class="sec-head"><div class="num">1</div>📅 Rotina Diária</div>
+    <div class="sec-sub">O que fazer todo dia ao chegar — antes de qualquer outra coisa</div>
+
+    <div class="callout amber">
+      <div class="ic">⭐</div>
+      <div><div class="t">REGRA DE OURO — Todo dia, sem exceção</div>
+      <div class="d">Liberar as Notas Fiscais e etiquetas de entrega é sempre a PRIMEIRA atividade do dia. Só depois passar para as demais tarefas.</div></div>
+    </div>
+
+    <div class="days">
+      <div class="day seg"><div class="tab"><div class="ic">☀️</div>SEGUNDA</div>
+        <div class="body"><ol>
+          <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Verificar no grupo de WhatsApp de cada cliente se o laboratório confirmou a coleta da semana</li>
+          <li>Se lab NÃO confirmou até 12h → enviar mensagem no grupo (ver modelo na Seção 8)</li>
+          <li>Verificar portal do laboratório — novos laudos desde sexta</li>
+          <li>Checar pendências da semana anterior na planilha de controle</li>
+          <li>Alinhamento semanal com técnicos de campo (15 min)</li>
+        </ol></div>
+      </div>
+      <div class="day ter"><div class="tab"><div class="ic">☁️</div>TERÇA</div>
+        <div class="body"><ol>
+          <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Se lab ainda não confirmou coleta → ligar diretamente. Não aguardar mais.</li>
+          <li>Registrar tentativa de contato na planilha (data e hora)</li>
+          <li>Verificar portal do laboratório — novos laudos</li>
+          <li>Processar e salvar laudos recebidos no Drive</li>
+        </ol></div>
+      </div>
+      <div class="day qua"><div class="tab"><div class="ic">🌤️</div>QUARTA</div>
+        <div class="body"><ol>
+          <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Verificar portal — novos laudos</li>
+          <li>Clientes Semana 1: verificar se E. coli e SS65 já estão publicados</li>
+          <li>Se resultado Sem.1 não chegou até dia 8 do mês → acionar lab IMEDIATAMENTE</li>
+          <li>Processar e salvar laudos no Drive</li>
+        </ol></div>
+      </div>
+      <div class="day qui"><div class="tab"><div class="ic">🌦️</div>QUINTA</div>
+        <div class="body"><ol>
+          <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Verificar portal — novos laudos</li>
+          <li>Clientes Sem. 2, 3 e 4: verificar se turbidez/SS65 chegaram (prazo: 5 dias após coleta)</li>
+          <li>Se resultado não chegou no prazo → acionar laboratório</li>
+          <li>Processar e salvar laudos no Drive</li>
+        </ol></div>
+      </div>
+      <div class="day sex"><div class="tab"><div class="ic">🌥️</div>SEXTA</div>
+        <div class="body"><ol>
+          <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Verificar portal — novos laudos</li>
+          <li>Revisão conjunta da planilha de controle — ambas as carteiras (20 min)</li>
+          <li>Identificar clientes com coleta pendente e definir ação para semana seguinte</li>
+          <li>Limpeza de pendências (30 min) — deixar tudo registrado para segunda</li>
+          <li>Revisar o que fecha no mês: o que falta para fechar cada cliente</li>
+        </ol></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section class="sec" id="sec2">
+    <div class="sec-head"><div class="num">2</div>📁 Google Drive</div>
+    <div class="sec-sub">Onde salvar cada documento — siga sempre o caminho correto</div>
+
+    <div class="callout blue">
+      <div class="ic">📌</div>
+      <div><div class="d">Nunca salvar documentos só no computador local. Tudo vai para o Drive imediatamente após receber ou gerar.</div></div>
+    </div>
+
+    <h3 class="subhead">2.1 Estrutura de pastas</h3>
+    <p>Para laudos mensais:</p>
+    <div class="path">📁 CLIENTES CONTROLE SISAGUA → [CIDADE] → [CLIENTE] → RELATÓRIOS → RELATÓRIOS 2026 → [MMAA]</div>
+    <p>Para relatórios semestrais:</p>
+    <div class="path">📁 CLIENTES CONTROLE SISAGUA → [CIDADE] → [CLIENTE] → RELATÓRIOS → RELATÓRIOS 2026 → SEMESTRAL → 1 SEMESTRE ou 2 SEMESTRE</div>
+
+    <div class="callout green">
+      <div class="ic">📍</div>
+      <div><div class="t">Exemplo — laudo mensal</div>
+      <div class="d">Laudo de março/2026 do Condomínio Aquarius Premium (São José dos Campos): CLIENTES CONTROLE SISAGUA → SÃO JOSE DOS CAMPOS → CONDOMINIO AQUARIUS PREMIUM → RELATÓRIOS → RELATÓRIOS 2026 → 0326</div></div>
+    </div>
+    <div class="callout green">
+      <div class="ic">📍</div>
+      <div><div class="t">Exemplo — relatório semestral</div>
+      <div class="d">1º semestre/2026 do Condomínio Aquarius Premium: CLIENTES CONTROLE SISAGUA → SÃO JOSE DOS CAMPOS → CONDOMINIO AQUARIUS PREMIUM → RELATÓRIOS → RELATÓRIOS 2026 → SEMESTRAL → 1 SEMESTRE</div></div>
+    </div>
+
+    <h3 class="subhead">2.2 Mapa cliente → cidade</h3>
+    <p>As pastas são organizadas por cidade. Se não lembrar onde está o cliente, consulte a planilha de cadastro de clientes.</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:26%">Cidade</th><th>Clientes</th></tr></thead>
+      <tbody>
+        <tr><td>Atibaia</td><td>Assoc. Proprietários Residencial Shambala III, Assoc. Proprietários Parque Res. Shambala II, Condomínio Villa Dei Fiori</td></tr>
+        <tr><td>Caçapava</td><td>Assoc. Terras de Santa Mariana (SAMA), Associação Malibu, Clube Recreativo Jequitibá, Comunidade Terapêutica Liberdade, Instituto Santa Teresa D'Avila, MS Indústria Produtos Plásticos, TW Espumas</td></tr>
+        <tr><td>Campinas</td><td>Campinas Educação S.A</td></tr>
+        <tr><td>Caraguatatuba</td><td>45.627.887 Renato Gomes da Cunha, Ilha Morena Praia Hotel, Cantina Fortunato, Massaguaçu S.A., NBL Indústria, Pesqueiro do Grotto, Santo Gelo, Park Imperial</td></tr>
+        <tr><td>Embu das Artes</td><td>Proxy Consultoria e Gestão Imobiliária</td></tr>
+        <tr><td>Guararema</td><td>Hotel Fazenda Pintado na Brasa</td></tr>
+        <tr><td>Jacareí</td><td>Condomínio Empresarial Indusvale, Lanchonete Diacov, M&amp;G Jacareí I, SHA Comércio de Alimentos, Solutech Ingredientes, VDA Logística</td></tr>
+        <tr><td>Jambeiro</td><td>Assoc. Proprietários Loteamento Reserva Fazenda São Francisco</td></tr>
+        <tr><td>Piracicaba</td><td>Shark Tratores e Peças</td></tr>
+        <tr><td>Santa Branca</td><td>Wirex Cable S.A</td></tr>
+        <tr><td>São José dos Campos</td><td>Acrevale, Centro de Valorização da Vida, Aquarius Premium, Boulevard Park, Central Park, Bonaire, Sport Ville, Chácara dos Eucaliptos, Girassóis I, Vila Almada, Fernando Marson, Fundhas, Gelo Cristal, Gelito's, Nova Aurora, Hospedagem Poliedro, Colégio Poliedro, Globo Gelo, Prolind Alumínio, Sorvetes Rochinha, Madson Marcondes, Costa Norte, Ed. Geneve, Rincon D'La Victoria, Vale Verde Tamoios</td></tr>
+        <tr><td>São Paulo</td><td>Acquare Campo Belo, Colégio Pan Terra, Ed. Itaparica, Rosas de Maio, Scene Alto de Pinheiros, Art de Vivre, Limoges Jardins, Lugano Club, Milano Club</td></tr>
+        <tr><td>São Sebastião</td><td>Assoc. Compossuidores de Pauba, Vila Verde de Maresias, Village de Camburizinho, Village do Carmo, Eduardo de Carvalho Gelo</td></tr>
+        <tr><td>Taboão da Serra</td><td>Res. Bosque do Taboão — Castanheira, Cerejeiras 1, Laranjeira</td></tr>
+        <tr><td>Taubaté</td><td>Fashion Vale Outlet, Tarobá Construções</td></tr>
+        <tr><td>Ubatuba</td><td>AAPP Pulso, Centro do Professorado Paulista - CPP, Condomínio Wembley Tênis, Samola — Assoc. Moradas da Lagoinha</td></tr>
+      </tbody>
+    </table></div>
+    <p class="muted" style="font-size:12.5px;margin-top:-2px;">Esta tabela mapeia a estrutura CLIENTES CONTROLE SISAGUA. Clientes mensais sem obrigação SISAGUA (ex.: Fashion Vale Outlet, Tarobá Construções, Taubaté) não entram nessa estrutura — ficam na pasta <b>CLIENTES CONTROLE ANÁLISES</b> (sem subpasta por cidade), conforme item 5.1/5.7 do POP-TEC-002.</p>
+
+    <h3 class="subhead">2.3 Como nomear os arquivos</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Documento</th><th>Onde salvar</th><th>Nome do arquivo</th></tr></thead>
+      <tbody>
+        <tr><td>📄 Laudo do laboratório</td><td>Pasta do mês [MMAA]</td><td>MMAA_Cliente_Laudo <span class="muted">Ex: 0326_AquariusPremium_Laudo</span></td></tr>
+        <tr><td>🖨️ Extrato SISAGUA</td><td>Pasta do mês [MMAA]</td><td>MMAA_Cliente_SISAGUA <span class="muted">Ex: 0326_AquariusPremium_SISAGUA</span></td></tr>
+        <tr><td>📃 Nota fiscal</td><td>Pasta do mês [MMAA]</td><td>MMAA_Cliente_NF <span class="muted">Ex: 0326_AquariusPremium_NF</span></td></tr>
+        <tr><td>🧾 Boleto</td><td>Pasta do mês [MMAA]</td><td>MMAA_Cliente_Boleto <span class="muted">Ex: 0326_AquariusPremium_Boleto</span></td></tr>
+        <tr><td>📄 Relatório semestral</td><td>SEMESTRAL → 1 SEMESTRE ou 2 SEMESTRE</td><td>AAAA_Cliente_1Semestre <span class="muted">Ex: 2026_AquariusPremium_1Semestre</span></td></tr>
+        <tr><td>⚠️ Registro de ocorrência</td><td>Pasta do cliente → OCORRÊNCIAS</td><td>AAAA-MM-DD_Cliente_Ocorrencia</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section class="sec" id="sec3">
+    <div class="sec-head"><div class="num">3</div>🖥️ Fluxo de Fechamento Mensal</div>
+    <div class="sec-sub">Executar para cada cliente da carteira, na ordem, sem pular etapas</div>
+
+    <div class="callout red">
+      <div class="ic">⛔</div>
+      <div><div class="d">Clientes com SISAGUA têm prazo legal. Nunca atrasar o lançamento. Em caso de dúvida, consulte a tabela de perfis abaixo antes de fechar qualquer cliente.</div></div>
+    </div>
+
+    <h3 class="subhead">3.1 Download e salvamento dos laudos</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:26px"></th><th>Ação</th><th>Como fazer</th><th>Quem</th></tr></thead>
+      <tbody>
+        <tr><td class="step">1</td><td>Acessar portal do laboratório</td><td>Entrar no portal e verificar laudos liberados. Filtrar pelos clientes da sua carteira. (Futuramente: acesso individual por carteira.)</td><td class="who">Gestão 01 ou 02</td></tr>
+        <tr><td class="step">2</td><td>Verificar laudos disponíveis</td><td>Conferir: cliente correto ✓ Data da coleta ✓ Parâmetros analisados ✓ Prazo de 5 dias úteis respeitado ✓</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">3</td><td>Baixar o laudo em PDF</td><td>Nomear conforme padrão: MMAA_Cliente_Laudo <span class="muted">Exemplo: 0326_AquariusPremium_Laudo</span></td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">4</td><td>Salvar no Drive</td><td>Salvar no caminho correto: CLIENTES CONTROLE SISAGUA → [CIDADE] → [CLIENTE] → RELATÓRIOS → RELATÓRIOS 2026 → [MMAA]</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">5</td><td>Registrar na planilha de controle</td><td>Marcar: cliente, semana, data do laudo, parâmetros recebidos, se chegou no prazo, status atual.</td><td class="who">Gestão responsável</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="subhead">3.2 Conferência do laudo (antes de processar)</h3>
+    <p>Fazer para <b>todo laudo</b>, antes de salvar no Drive e seguir para SISAGUA ou faturamento — pega erro antes que vire retrabalho ou notificação da Vigilância.</p>
+
+    <div class="callout red">
+      <div class="ic">⛔</div>
+      <div><div class="d">Nenhum laudo segue para SISAGUA ou faturamento sem passar por esta conferência. Havendo qualquer divergência, PARE no passo 5 antes de continuar.</div></div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:26px"></th><th>Ação</th><th>Como verificar</th><th>Quem</th></tr></thead>
+      <tbody>
+        <tr><td class="step">1</td><td>Parâmetros solicitados x realizados</td><td>Conferir se todos os parâmetros pedidos ao laboratório constam no laudo, com resultado. Sinalizar: parâmetro pedido e ausente; parâmetro extra não pedido (pode indicar troca de amostra); unidade de medida diferente da usual. <b>Atenção ao custo:</b> o laboratório cobra por parâmetro — qualquer parâmetro fora do solicitado, além de descaracterizar o serviço contratado, gera custo extra para a Filtratech.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">2</td><td>Cadastro do cliente</td><td>Checar se o nome/razão social e o endereço do laudo batem exatamente com o cadastro (GestãoClick/SISAGUA). Atenção redobrada em clientes com mais de uma unidade ou mais de um ponto de captação.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">3</td><td>Ponto de coleta</td><td>Confirmar se a captação/ponto amostrado no laudo (ex.: "Poço 01", "saída do filtro") é exatamente o solicitado no plano de amostragem do cliente.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">4</td><td>Tipo de água</td><td>Verificar se o laudo identifica claramente água bruta ou tratada, e se bate com o que foi pedido. Um resultado de água tratada lido como bruta (ou o contrário) pode levar a uma interpretação e comunicação erradas ao cliente.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">5</td><td>Se houver qualquer divergência</td><td>NÃO seguir para SISAGUA nem faturamento. Solicitar a correção ao laboratório pelo e-mail de SAC, registrar a ocorrência na planilha de controle e só retomar a partir do passo 1, com o laudo corrigido.</td><td class="who">Gestão responsável</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout amber">
+      <div class="ic">💸</div>
+      <div><div class="t">Parâmetro extra = custo extra</div>
+      <div class="d">O laboratório cobra por parâmetro analisado. Um parâmetro que aparece no laudo sem ter sido solicitado não é "brinde" — é um serviço diferente do contratado e gera cobrança à Filtratech. Ao identificar isso no passo 1, registrar e informar a Coordenação Técnica, além de sinalizar a divergência ao laboratório.</div></div>
+    </div>
+
+    <div class="callout blue">
+      <div class="ic">📌</div>
+      <div><div class="d">Clientes com contrato consolidado nem sempre precisam de conferência integral em 100% dos laudos — a Coordenação Técnica pode definir amostragem. Mas a conferência volta a ser obrigatória em todos os laudos sempre que houver mudança de laboratório, de método, ou qualquer inconsistência percebida, independentemente do cliente.</div></div>
+    </div>
+    <p class="muted">Resultado fora do padrão identificado já nesta etapa? Ver <a href="#sec3">Seção 3.4</a> e <a href="#sec7">Seção 7 — Quando acionar o Fernando</a>.</p>
+
+    <h3 class="subhead">3.3 Conferência por perfil de cliente</h3>
+    <p>Ao fechar o mês, verificar se TODOS os laudos esperados estão presentes:</p>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Perfil</th><th>Laudos esperados</th><th>⚠️ Atenção</th></tr></thead>
+      <tbody>
+        <tr><td>🔵 Perfil A Padrão <span class="muted">(68 clientes)</span></td><td>4 laudos: Sem.1: E.coli + SS65 saída + SS65 consumo · Sems.2,3,4: Turbidez saída</td><td>Turbidez NÃO se repete se faltar semana — não há recoleta automática. Registrar e acionar lab.</td></tr>
+        <tr><td>🔵 Perfil B SS65 toda semana <span class="muted">(Shambala II, Vila Verde Maresias, Ilha Morena, Samola, Park Imperial)</span></td><td>4 laudos: Sem.1: E.coli + SS65 saída + SS65 consumo · Sems.2,3,4: SS65 saída + SS65 consumo</td><td>SS65 se repete toda semana — se houver desconformidade em uma semana, a próxima serve como recoleta confirmatória.</td></tr>
+        <tr><td>🔵 Perfil C Sazonal AAPP Pulso <span class="muted">(1 cliente)</span></td><td>Nov–Fev: 4 laudos (todas as semanas) · Mar–Out: 2 laudos (Sems. 1 e 3 apenas)</td><td>Sems. 2 e 4 (Mar–Out): NÃO acionar lab. Autorizado pela Vigilância Sanitária.</td></tr>
+        <tr><td>🔵 Perfil D Mensal <span class="muted">(Madson, Village Camburizinho, Vale Verde Tamoios, VDA Logística)</span></td><td>1 laudo por mês</td><td>Verificar parâmetros conforme contrato individual de cada cliente.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="subhead">3.4 O que fazer se a água estiver fora do padrão</h3>
+    <div class="callout red">
+      <div class="ic">⛔</div>
+      <div><div class="t">NUNCA prosseguir para SISAGUA ou faturamento com desconformidade em aberto.</div>
+      <div class="d">Resolver primeiro, seguindo o protocolo abaixo. Em caso de dúvida: acionar o Fernando.</div></div>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Situação</th><th>Ação imediata</th><th>Próximo passo</th></tr></thead>
+      <tbody>
+        <tr><td>🔴 E. coli ou coliformes na água TRATADA</td><td>Acionar Fernando imediatamente. Avisar cliente.</td><td>Fernando define: recoleta + reforço de cloração. Não lançar SISAGUA até resolução.</td></tr>
+        <tr><td>🟡 E. coli / coliformes só na água BRUTA (tratada OK)</td><td>Registrar. Informar Fernando. Entrar em acompanhamento.</td><td>3 meses consecutivos → Fernando recomenda limpeza do poço + tratamento químico.</td></tr>
+        <tr><td>🟡 Turbidez fora do padrão — COM filtro</td><td>Verificar se manutenção e retrolavagem estão em dia.</td><td>Filtro OK → registrar e aguardar. Filtro pendente → acionar cliente para regularizar.</td></tr>
+        <tr><td>🔴 Turbidez fora do padrão — SEM filtro</td><td>Informar Fernando para avaliação técnica.</td><td>Fernando define ação.</td></tr>
+        <tr><td>🔴 SS65 fora do padrão</td><td>Acionar Fernando imediatamente. Identificar qual parâmetro está fora antes de ligar.</td><td>Parâmetro bacteriológico (E. coli/coliformes) → avisar cliente + emergência. Demais parâmetros (cor, turbidez, cloro, pH, temperatura, fluoretos) → Fernando avalia caso a caso. Não lançar SISAGUA até definição.</td></tr>
+        <tr><td>🔴 Cliente solicita recoleta mesmo OK</td><td>Registrar solicitação. Acionar lab para reagendamento.</td><td>Seguir fluxo normal após nova coleta.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout amber">
+      <div class="ic">🟡</div>
+      <div><div class="t">Clientes sem SISAGUA (12 clientes)</div>
+      <div class="d">Associação Malibu, Ed. Residencial Geneve, Fashion Vale Outlet, Rincon D'La Victoria, Village do Carmo, Costa Norte, Eduardo Gelo, Madson Marcondes, NBL Indústria, Tarobá Construções, Vale Verde Tamoios, VDA Logística. Após confirmar qualidade da água → ir direto para faturamento, sem lançamento no SISAGUA.</div></div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section class="sec" id="sec4">
+    <div class="sec-head"><div class="num">4</div>🏛️ Lançamento no SISAGUA</div>
+    <div class="sec-sub">Sistema federal obrigatório — cada colaboradora lança os clientes da própria carteira</div>
+
+    <div class="callout red">
+      <div class="ic">⛔</div>
+      <div><div class="t">OBRIGATÓRIO E COM PRAZO LEGAL</div>
+      <div class="d">Somente lançar após confirmar: (1) todos os laudos do mês salvos no Drive e conferidos (Seção 3.2), e (2) qualidade da água resolvida.</div></div>
+    </div>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:26px"></th><th>Ação</th><th>Como fazer</th><th>Quem</th></tr></thead>
+      <tbody>
+        <tr><td class="step">1</td><td>Confirmar pré-requisitos</td><td>☑ Todos os laudos do mês no Drive e conferidos? ☑ Água conforme (ou recoleta concluída)? Se não → resolver antes de prosseguir.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">2</td><td>Acessar o SISAGUA</td><td>Entrar com login da Filtratech. Selecionar o cliente da carteira.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">3</td><td>Lançar os dados</td><td>Inserir resultados conforme os laudos. Conferir CADA valor antes de salvar — erro gera retrabalho e pode gerar notificação da Vigilância.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">4</td><td>Salvar e confirmar</td><td>Confirmar o lançamento. Verificar se o sistema aceitou sem erros.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">5</td><td>Baixar extrato do mês</td><td>Baixar o comprovante em PDF. Nomear: MMAA_Cliente_SISAGUA <span class="muted">Ex: 0326_AquariusPremium_SISAGUA</span></td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">6</td><td>Salvar extrato no Drive</td><td>Salvar na mesma pasta do mês do cliente — junto com os laudos.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">7</td><td>Atualizar planilha</td><td>Marcar SISAGUA como lançado. Registrar data.</td><td class="who">Gestão responsável</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section class="sec" id="sec5">
+    <div class="sec-head"><div class="num">5</div>💰 Faturamento</div>
+    <div class="sec-sub">Após SISAGUA concluído — ou direto para clientes sem SISAGUA</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:26px"></th><th>Ação</th><th>Como fazer</th><th>Quem</th></tr></thead>
+      <tbody>
+        <tr><td class="step">1</td><td>Verificar valor do contrato</td><td>Conferir no GestãoClick o valor mensal. Verificar se há serviço adicional: recoleta, visita técnica, produto.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">2</td><td>Emitir nota fiscal</td><td>Gerar NF no GestãoClick. Conferir CNPJ, endereço e valor antes de emitir.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">3</td><td>Baixar NF e boleto</td><td>Nomear: MMAA_Cliente_NF e MMAA_Cliente_Boleto</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">4</td><td>Salvar no Drive</td><td>Salvar NF e boleto na pasta do mês do cliente.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">5</td><td>Atualizar planilha</td><td>Marcar faturamento concluído. Registrar data e vencimento do boleto.</td><td class="who">Gestão responsável</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section class="sec" id="sec6">
+    <div class="sec-head"><div class="num">6</div>✉️ E-mail para o Cliente</div>
+    <div class="sec-sub">Fechamento do ciclo mensal — enviar após faturamento concluído</div>
+
+    <h3 class="subhead">6.1 Checklist antes de enviar</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:26px"></th><th>Documento</th><th>Observação</th></tr></thead>
+      <tbody>
+        <tr><td>☐</td><td>📄 Laudos do laboratório do mês</td><td>Todos os laudos — conforme perfil A, B, C ou D do cliente</td></tr>
+        <tr><td>☐</td><td>🖨️ Extrato do SISAGUA</td><td>Somente para os 66 clientes com obrigação SISAGUA</td></tr>
+        <tr><td>☐</td><td>📃 Nota fiscal</td><td>Conferir CNPJ e valor antes de anexar</td></tr>
+        <tr><td>☐</td><td>🧾 Boleto</td><td>Conferir vencimento antes de anexar</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout blue">
+      <div class="ic">📌</div>
+      <div><div class="t">DESTINATÁRIOS — Sempre usar o grupo do cliente</div>
+      <div class="d">Cada cliente tem um grupo cadastrado com administradoras, síndicos e zeladores. Nunca digitar e-mail manualmente — selecionar o grupo para não esquecer ninguém.</div></div>
+    </div>
+
+    <h3 class="subhead">6.2 Modelo de e-mail mensal</h3>
+    <div class="email-card">
+      <div class="hd">Assunto</div>
+      <div class="bd">[Nome do Cliente] — Relatórios e Documentos — [Mês/Ano]<br><em>Exemplo: Condomínio Aquarius Premium — Relatórios e Documentos — Março/2026</em></div>
+    </div>
+    <div class="email-card">
+      <div class="hd">Corpo do e-mail</div>
+      <div class="bd">
+        Prezados,<br><br>
+        Segue em anexo a documentação referente ao mês de [MÊS/ANO]:<br>
+        • Laudos de análise de água do laboratório<br>
+        • Extrato de lançamento SISAGUA <em>← retirar para clientes sem SISAGUA</em><br>
+        • Nota fiscal nº [NÚMERO] — Vencimento: [DATA]<br>
+        • Boleto<br><br>
+        Qualquer dúvida, estamos à disposição.<br><br>
+        Atenciosamente,<br>Filtratech Ambiental<br>[gestao1 ou gestao2]@filtratech.com.br
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section class="sec" id="sec7">
+    <div class="sec-head"><div class="num">7</div>📞 Quando Acionar o Fernando</div>
+    <div class="sec-sub">Responsável Técnico — nunca tomar decisão técnica por conta própria</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Situação</th><th>Urgência</th><th>Como acionar</th></tr></thead>
+      <tbody>
+        <tr><td>E. coli ou coliformes na água tratada</td><td>⚫ IMEDIATA</td><td>WhatsApp direto — ligar se não responder em 15 min</td></tr>
+        <tr><td>SS65 fora do padrão (qualquer ponto)</td><td>⚫ IMEDIATA</td><td>WhatsApp direto — aguardar orientação antes de qualquer ação</td></tr>
+        <tr><td>Turbidez muito acima do padrão — sem filtro</td><td>🟠 URGENTE — mesmo dia</td><td>WhatsApp — informar cliente e resultado</td></tr>
+        <tr><td>Turbidez fora do padrão — filtro com manutenção pendente</td><td>🟠 URGENTE — mesmo dia</td><td>WhatsApp — informar situação do filtro</td></tr>
+        <tr><td>E. coli só na água bruta — 3º mês consecutivo</td><td>🔵 PROGRAMADO</td><td>Relatar na próxima reunião ou WhatsApp sem urgência</td></tr>
+        <tr><td>Preposto avisa anomalia no sistema</td><td>🟠 URGENTE — mesmo dia</td><td>WhatsApp — Fernando avalia: videochamada ou visita</td></tr>
+        <tr><td>Situação não prevista neste POP</td><td>⚪ CONFORME AVALIAÇÃO</td><td>Descrever a situação e aguardar orientação</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- SECTION 8 -->
+  <section class="sec" id="sec8">
+    <div class="sec-head"><div class="num">8</div>💬 Modelos de Mensagem — WhatsApp</div>
+    <div class="sec-sub">Usar sempre os modelos abaixo. Nunca mensagem informal para grupos de clientes.</div>
+
+    <h3 class="subhead">Modelo 1 — Confirmar agendamento (toda segunda-feira)</h3>
+    <div class="email-card"><div class="hd">Enviar no grupo [Lab + Cliente + Filtratech]</div>
+      <div class="bd">Bom dia! Gostaríamos de confirmar o agendamento da coleta desta semana para [NOME DO CLIENTE]. Podem nos confirmar a data e horário previsto? Obrigada. Filtratech Ambiental</div></div>
+
+    <h3 class="subhead">Modelo 2 — Cobrar resultado atrasado</h3>
+    <div class="email-card"><div class="hd">Enviar quando resultado não chegar em 5 dias</div>
+      <div class="bd">Bom dia! A coleta de [PARÂMETRO] do cliente [NOME DO CLIENTE], realizada em [DATA], ainda não está disponível no portal. Podem verificar e providenciar a publicação? Prazo acordado: 5 dias úteis. Obrigada. Filtratech Ambiental</div></div>
+
+    <h3 class="subhead">Modelo 3 — Informar falha de coleta ao cliente</h3>
+    <div class="email-card"><div class="hd">Enviar quando laboratório não realizou a coleta</div>
+      <div class="bd">Prezados, informamos que a coleta prevista para [DATA] não foi realizada pelo laboratório. Já acionamos o laboratório e estamos providenciando o reagendamento com a maior brevidade. Manteremos vocês informados. Atenciosamente, Filtratech Ambiental</div></div>
+
+    <h3 class="subhead">Modelo 4 — Solicitar reagendamento ao laboratório</h3>
+    <div class="email-card"><div class="hd">Enviar no grupo para o laboratório</div>
+      <div class="bd">Bom dia! A coleta de [PARÂMETRO] do cliente [NOME CLIENTE] prevista para [DATA] não foi realizada. Precisamos reagendar com urgência para cumprir o prazo mensal. Qual a data mais próxima disponível? Obrigada.</div></div>
+  </section>
+
+  <!-- SECTION 9 -->
+  <section class="sec" id="sec9">
+    <div class="sec-head"><div class="num">9</div>⚠️ Clientes com Perfil Especial</div>
+    <div class="sec-sub">Consultar esta seção antes de processar laudos ou lançar no SISAGUA</div>
+
+    <h3 class="subhead">Clientes com ETA — Estação de Tratamento de Água</h3>
+    <div class="callout blue"><div class="ic">📌</div>
+      <div><div class="d">Resultado fora do padrão em cliente com ETA → comunicar Fernando ANTES de contatar o cliente. Pode envolver ajuste operacional na estação.</div></div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Cliente</th><th>Observação</th></tr></thead>
+      <tbody>
+        <tr><td>Acquare Campo Belo</td><td>ETA com preposto treinado</td></tr>
+        <tr><td>Assoc. Proprietários Residencial Shambala III</td><td>ETA com preposto treinado</td></tr>
+        <tr><td>Assoc. Proprietários Parque Res. Shambala II</td><td>ETA com preposto treinado — Perfil B (SS65 toda semana)</td></tr>
+        <tr><td>Ilha Morena Praia Hotel</td><td>ETA com preposto treinado — Perfil B — captação superficial</td></tr>
+        <tr><td>Massaguaçu S.A.</td><td>ETA com preposto treinado</td></tr>
+        <tr><td>SHA Comércio de Alimentos</td><td>🔵 ETA operada pela Filtratech — acionar Fernando para qualquer alteração</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="subhead">Clientes com filtro — manutenção pendente</h3>
+    <div class="callout amber"><div class="ic">🟡</div>
+      <div><div class="d">Ao receber laudo de turbidez fora do padrão nesses clientes: verificar primeiro se a manutenção foi regularizada antes de qualquer ação.</div></div></div>
+    <ul class="plain">
+      <li>Condomínio Residencial Rosas de Maio</li>
+      <li>Condomínio Vila Verde de Maresias (Perfil B)</li>
+      <li>Samola — Associação Moradas da Lagoinha (Perfil B)</li>
+    </ul>
+
+    <h3 class="subhead">AAPP Pulso — Cronograma sazonal autorizado pela Vigilância Sanitária</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Período</th><th>Frequência</th><th>Semanas com coleta</th></tr></thead>
+      <tbody>
+        <tr><td>Nov–Fev (alta temp.)</td><td>SEMANAL — 4x/mês</td><td>Semanas 1, 2, 3 e 4</td></tr>
+        <tr><td>Mar–Out (baixa temp.)</td><td>QUINZENAL — 2x/mês</td><td>Semanas 1 e 3 — Sems. 2 e 4: SEM coleta</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout green"><div class="ic">🟢</div>
+      <div><div class="t">Semanas sem coleta (Sems. 2 e 4, período Mar–Out)</div>
+      <div class="d">NÃO acionar o laboratório. Isso é autorizado pela Vigilância Sanitária. Manter documento de autorização arquivado na pasta do cliente no Drive.</div></div></div>
+
+    <h3 class="subhead">Park Imperial — Duas captações superficiais</h3>
+    <div class="callout blue"><div class="ic">📌</div>
+      <div><div class="d">Este cliente tem DUAS captações superficiais independentes. Ao verificar laudos no portal, confirmar de qual captação veio cada amostra. Perfil B (SS65 toda semana).</div></div></div>
+  </section>
+
+  <!-- SECTION 10 -->
+  <section class="sec" id="sec10">
+    <div class="sec-head"><div class="num">10</div>🗓️ Fluxo Semestral — Março e Setembro</div>
+    <div class="sec-sub">Coleta adicional com parâmetros extras — corre em paralelo ao fluxo mensal</div>
+
+    <div class="callout amber"><div class="ic">🟡</div>
+      <div><div class="t">ATENÇÃO NOS MESES DE MARÇO E SETEMBRO</div>
+      <div class="d">Nesses meses a carga é maior: 4 coletas mensais de rotina + coleta semestral adicional. Planejar a semana com antecedência.</div></div></div>
+
+    <h3 class="subhead">10.1 Características da coleta semestral</h3>
+    <div class="tbl-wrap"><table>
+      <tbody>
+        <tr><td style="width:34%">📅 Meses de coleta</td><td>Março (1º Semestre) e Setembro (2º Semestre)</td></tr>
+        <tr><td>🚚 Quem coleta</td><td>Laboratório — já contratado junto com o serviço mensal</td></tr>
+        <tr><td>📍 Pontos de coleta</td><td>Os mesmos da mensal: água bruta, saída do tratamento e ponto de consumo</td></tr>
+        <tr><td>⏱️ Prazo do laudo</td><td>Aproximadamente 20 dias após a coleta</td></tr>
+        <tr><td>🏛️ Lançamento SISAGUA</td><td>Obrigatório — prazo é o encerramento do semestre (junho e dezembro). Quanto antes, melhor.</td></tr>
+        <tr><td>✉️ E-mail para o cliente</td><td>Separado do e-mail mensal — assunto exclusivo da semestral</td></tr>
+        <tr><td>⚠️ Desconformidades</td><td>Analisadas caso a caso com o Fernando</td></tr>
+        <tr><td>📁 Pasta no Drive</td><td>SEMESTRAL → 1 SEMESTRE (março) ou 2 SEMESTRE (setembro)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="subhead">10.2 Prioridade — Clientes de Jacareí</h3>
+    <div class="callout red"><div class="ic">⛔</div>
+      <div><div class="t">FINALIZAR PRIMEIRO — antes de qualquer outro cliente</div>
+      <div class="d">A fiscalização de Jacareí exige envio por e-mail com prazo próprio. Não aguardar os demais clientes para enviar.</div></div></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:40px">#</th><th>Cliente — prioridade máxima na semestral</th></tr></thead>
+      <tbody>
+        <tr><td>1º</td><td>Condomínio Empresarial Indusvale</td></tr>
+        <tr><td>2º</td><td>Lanchonete Diacov Ltda</td></tr>
+        <tr><td>3º</td><td>M&amp;G Jacareí I - Condomínio Empresarial</td></tr>
+        <tr><td>4º</td><td>SHA Comércio de Alimentos</td></tr>
+        <tr><td>5º</td><td>Solutech Ingredientes</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="subhead">10.3 Passo a passo semestral</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th style="width:26px"></th><th>Ação</th><th>Como fazer</th><th>Quem</th></tr></thead>
+      <tbody>
+        <tr><td class="step">1</td><td>Confirmar coleta com o lab</td><td>Em março e setembro, verificar no WhatsApp se o lab confirmou a coleta semestral — além das coletas mensais de rotina.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">2</td><td>Acompanhar prazo do laudo</td><td>Prazo: até 20 dias após coleta. Monitorar o portal e baixar imediatamente quando disponível.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">3</td><td>Baixar e salvar no Drive</td><td>Salvar em: SEMESTRAL → 1 SEMESTRE ou 2 SEMESTRE. Nomear: AAAA_Cliente_1Semestre ou AAAA_Cliente_2Semestre</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">4</td><td>Verificar desconformidades</td><td>Qualquer parâmetro fora do padrão → acionar Fernando ANTES de qualquer ação. Desconformidades semestrais são analisadas caso a caso.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">5</td><td>Jacareí — PRIORIDADE</td><td>Finalizar primeiro os 5 clientes de Jacareí. Lançar SISAGUA e enviar e-mail antes de qualquer outro cliente semestral.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">6</td><td>Lançar no SISAGUA</td><td>Mesmo fluxo do lançamento mensal (Seção 4). Prazo: junho (1º sem.) e dezembro (2º sem.). Quanto antes lançar, melhor.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">7</td><td>Baixar extrato SISAGUA</td><td>Salvar na pasta SEMESTRAL → 1 SEMESTRE ou 2 SEMESTRE do cliente.</td><td class="who">Gestão responsável</td></tr>
+        <tr><td class="step">8</td><td>Montar e enviar e-mail separado</td><td>E-mail semestral é SEPARADO do mensal. Usar modelo abaixo.</td><td class="who">Gestão responsável</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 class="subhead">10.4 Modelo de e-mail — Semestral</h3>
+    <div class="email-card">
+      <div class="hd">Assunto</div>
+      <div class="bd">[Nome do Cliente] — Relatório Semestral de Análise de Água — [1º ou 2º] Semestre/[ANO]<br><em>Exemplo: Condomínio Aquarius Premium — Relatório Semestral de Análise de Água — 1º Semestre/2026</em></div>
+    </div>
+    <div class="email-card">
+      <div class="hd">Corpo do e-mail</div>
+      <div class="bd">
+        Prezados,<br><br>
+        Segue em anexo o Relatório Semestral de Análise de Água referente ao [1º ou 2º] Semestre de [ANO]:<br>
+        • Laudo de análise semestral do laboratório<br>
+        • Extrato de lançamento SISAGUA<br><br>
+        Este relatório contempla parâmetros adicionais de monitoramento da qualidade da água, conforme exigência legal semestral.<br><br>
+        Qualquer dúvida, estamos à disposição.<br><br>
+        Atenciosamente,<br>Filtratech Ambiental<br>[gestao1 ou gestao2]@filtratech.com.br
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 11 -->
+  <section class="sec" id="sec11">
+    <div class="sec-head"><div class="num">11</div>⚡ Tabela de Prioridades e Prazos</div>
+    <div class="sec-sub">Em caso de acúmulo de tarefas — use esta tabela para decidir o que fazer primeiro</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Tarefa</th><th>Prazo</th><th>Se atrasar...</th></tr></thead>
+      <tbody>
+        <tr><td>⭐ NF e etiquetas de entrega</td><td>Todo dia — 1ª atividade</td><td>Entrega parada — impacto direto na operação</td></tr>
+        <tr><td>⚫ Acionar lab se coleta não confirmada</td><td>Terça até 12h</td><td>Coleta não acontece — mês sem resultado</td></tr>
+        <tr><td>⚫ Resultado Sem. 1 no portal (E. coli + SS65)</td><td>Até dia 8 do mês</td><td>Risco legal — alimenta SISAGUA</td></tr>
+        <tr><td>⚫ Desconformidade → acionar Fernando</td><td>No mesmo dia</td><td>Cliente exposto — risco à saúde e contratual</td></tr>
+        <tr><td>🔄 Lançamento SISAGUA</td><td>Prazo legal mensal</td><td>Notificação da Vigilância Sanitária</td></tr>
+        <tr><td>🔄 Faturamento</td><td>Conforme vencimento contratual</td><td>Atraso no recebimento</td></tr>
+        <tr><td>🔄 E-mail para o cliente</td><td>Após faturamento concluído</td><td>Cliente sem informação — risco de reclamação</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout blue"><div class="ic">💡</div>
+      <div><div class="d">Em caso de dúvida sobre qualquer situação não prevista neste documento: registrar o ocorrido, informar a gestão e aguardar orientação. Nunca tomar decisão técnica por conta própria.</div></div></div>
+  </section>
+
+  <div class="foot">Filtratech Ambiental — Versão 1.1 — 2026 · POP Gestão 01 / Gestão 02</div>
+</div>
