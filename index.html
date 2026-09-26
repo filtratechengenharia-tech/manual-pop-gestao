@@ -70,6 +70,18 @@
     background: var(--surface); border:1px solid var(--border); color:var(--muted);
     text-decoration:none; white-space:nowrap;
   }
+  @media (max-width:680px){
+    .nav{ flex-wrap:wrap; overflow-x:visible; padding-bottom:6px; }
+  }
+
+  /* search bar */
+  .pop-search-wrap{ position:sticky; top:44px; z-index:40; background:var(--bg); padding:2px 0 10px; }
+  .pop-search{ width:100%; padding:10px 14px; border-radius:20px; border:1px solid var(--border);
+    background:var(--surface); color:var(--text); font-size:13.5px; outline:none; }
+  .pop-search:focus{ border-color:var(--accent); }
+  .pop-search-count{ font-size:11.5px; color:var(--muted); margin-top:5px; padding-left:4px; }
+  mark.pop-hit{ background:var(--amber-bg); color:var(--amber-text); border-radius:3px; padding:0 2px; }
+  mark.pop-hit.active{ background:var(--accent); color:#fff; }
 
   /* hero */
   .hero{ background: var(--navy); color:#fff; border-radius:14px; padding:28px 24px; margin-top:18px; }
@@ -192,7 +204,15 @@
     <a href="#sec9">9. Perfis Especiais</a>
     <a href="#sec10">10. Fluxo Semestral</a>
     <a href="#sec11">11. Prioridades</a>
+    <a href="#sec12">12. Boletos Fornecedores</a>
+    <a href="#sec13">13. Grupo de Trabalho</a>
+    <a href="#sec14">14. Logística Químicos</a>
   </nav>
+
+  <div class="pop-search-wrap">
+    <input type="text" id="pop-search" class="pop-search" placeholder="🔎 Buscar por palavra ou assunto (ex: boleto, SISAGUA, laudo, QR code)...">
+    <div id="pop-search-count" class="pop-search-count"></div>
+  </div>
 
   <div class="hero">
     <div class="eyebrow">Filtratech Ambiental</div>
@@ -238,6 +258,7 @@
       <div class="day seg"><div class="tab"><div class="ic">☀️</div>SEGUNDA</div>
         <div class="body"><ol>
           <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Conferir boletos de fornecedores recebidos (e-mail/grupo) e lançar para pagamento no Gestão Click</li>
           <li>Verificar no grupo de WhatsApp de cada cliente se o laboratório confirmou a coleta da semana</li>
           <li>Se lab NÃO confirmou até 12h → enviar mensagem no grupo (ver modelo na Seção 8)</li>
           <li>Verificar portal do laboratório — novos laudos desde sexta</li>
@@ -248,6 +269,7 @@
       <div class="day ter"><div class="tab"><div class="ic">☁️</div>TERÇA</div>
         <div class="body"><ol>
           <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Conferir boletos de fornecedores recebidos (e-mail/grupo) e lançar para pagamento no Gestão Click</li>
           <li>Se lab ainda não confirmou coleta → ligar diretamente. Não aguardar mais.</li>
           <li>Registrar tentativa de contato na planilha (data e hora)</li>
           <li>Verificar portal do laboratório — novos laudos</li>
@@ -257,6 +279,7 @@
       <div class="day qua"><div class="tab"><div class="ic">🌤️</div>QUARTA</div>
         <div class="body"><ol>
           <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Conferir boletos de fornecedores recebidos (e-mail/grupo) e lançar para pagamento no Gestão Click</li>
           <li>Verificar portal — novos laudos</li>
           <li>Clientes Semana 1: verificar se E. coli e SS65 já estão publicados</li>
           <li>Se resultado Sem.1 não chegou até dia 8 do mês → acionar lab IMEDIATAMENTE</li>
@@ -266,6 +289,7 @@
       <div class="day qui"><div class="tab"><div class="ic">🌦️</div>QUINTA</div>
         <div class="body"><ol>
           <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Conferir boletos de fornecedores recebidos (e-mail/grupo) e lançar para pagamento no Gestão Click</li>
           <li>Verificar portal — novos laudos</li>
           <li>Clientes Sem. 2, 3 e 4: verificar se turbidez/SS65 chegaram (prazo: 5 dias após coleta)</li>
           <li>Se resultado não chegou no prazo → acionar laboratório</li>
@@ -275,6 +299,7 @@
       <div class="day sex"><div class="tab"><div class="ic">🌥️</div>SEXTA</div>
         <div class="body"><ol>
           <li>Liberar NF e etiquetas de entrega do dia</li>
+          <li>Conferir boletos de fornecedores recebidos (e-mail/grupo) e lançar para pagamento no Gestão Click</li>
           <li>Verificar portal — novos laudos</li>
           <li>Revisão conjunta da planilha de controle — ambas as carteiras (20 min)</li>
           <li>Identificar clientes com coleta pendente e definir ação para semana seguinte</li>
@@ -703,5 +728,190 @@
       <div><div class="d">Em caso de dúvida sobre qualquer situação não prevista neste documento: registrar o ocorrido, informar a gestão e aguardar orientação. Nunca tomar decisão técnica por conta própria.</div></div></div>
   </section>
 
-  <div class="foot">Filtratech Ambiental — Versão 1.1 — 2026 · POP Gestão 01 / Gestão 02</div>
+  <!-- SECTION 12 -->
+  <section class="sec" id="sec12">
+    <div class="sec-head"><div class="num">12</div>🧾 Boletos de Fornecedores — Gestão Click</div>
+    <div class="sec-sub">Recebimento de boletos e lançamento para pagamento — parte da rotina diária</div>
+
+    <div class="callout amber">
+      <div class="ic">⭐</div>
+      <div><div class="t">Faz parte da rotina diária</div>
+      <div class="d">Todo dia, ao liberar as NF e etiquetas de entrega, também conferir se chegou boleto de fornecedor (e-mail ou grupo de WhatsApp) e lançar para pagamento no Gestão Click. Não deixar acumular para o fim da semana.</div></div>
+    </div>
+
+    <h3 class="subhead">12.1 Passo a passo</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>#</th><th>Ação</th></tr></thead>
+      <tbody>
+        <tr><td class="step">1</td><td>Receber o boleto (e-mail do fornecedor ou grupo de WhatsApp)</td></tr>
+        <tr><td class="step">2</td><td>Conferir os dados: fornecedor, valor, data de vencimento e referência (nota fiscal / pedido)</td></tr>
+        <tr><td class="step">3</td><td>Lançar no Gestão Click, na conta e categoria correta, com a data de vencimento</td></tr>
+        <tr><td class="step">4</td><td>Anexar o arquivo do boleto ao lançamento</td></tr>
+        <tr><td class="step">5</td><td>Programar o pagamento conforme o vencimento (evitar atraso e multa)</td></tr>
+        <tr><td class="step">6</td><td>Após o pagamento ser realizado, marcar o lançamento como pago no sistema</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout red">
+      <div class="ic">⛔</div>
+      <div><div class="t">Atenção</div>
+      <div class="d">Conferir sempre se o boleto já não foi lançado antes (evitar duplicidade) e se o valor/vencimento bate com o que está no e-mail ou grupo. Em caso de divergência, não lançar — confirmar com o fornecedor antes.</div></div>
+    </div>
+  </section>
+
+  <!-- SECTION 13 -->
+  <section class="sec" id="sec13">
+    <div class="sec-head"><div class="num">13</div>👥 Grupo de Trabalho — Fotos, Relatórios e QR Code</div>
+    <div class="sec-sub">Fotos e informações recebidas no grupo geram outras demandas — tratar com atenção</div>
+
+    <div class="callout amber">
+      <div class="ic">⭐</div>
+      <div><div class="t">Regra geral</div>
+      <div class="d">Toda foto ou informação recebida no grupo de trabalho sobre um serviço executado (manutenção ou instalação) gera demandas seguintes: relatório correspondente, QR code do local e faturamento. Nunca tratar como só um aviso — sempre verificar o que precisa ser gerado a partir dela.</div></div>
+    </div>
+
+    <h3 class="subhead">13.1 Antes de sair para realizar o serviço</h3>
+    <ul class="plain">
+      <li>Gerar o QR code do serviço/cliente antes de sair para o atendimento</li>
+      <li>Imprimir ou anexar o QR code na pasta correta — geralmente a pasta do cliente de filtros</li>
+      <li>Levar a pasta com o QR code para o local do serviço</li>
+    </ul>
+
+    <h3 class="subhead">13.2 Depois do serviço executado</h3>
+    <ul class="plain">
+      <li>Identificar o tipo de serviço a partir da foto/informação recebida no grupo (manutenção ou instalação)</li>
+      <li>Elaborar o relatório correspondente (relatório de manutenção ou relatório de instalação)</li>
+      <li>Anexar as fotos recebidas no grupo ao relatório e/ou à pasta do cliente no Drive</li>
+      <li>Providenciar o faturamento do serviço realizado</li>
+    </ul>
+
+    <div class="callout blue"><div class="ic">📌</div>
+      <div><div class="d">Fluxo resumido: <b>Foto/informação no grupo → identificar o serviço → QR code (antes) → relatório de manutenção/instalação → faturamento (depois)</b>.</div></div>
+    </div>
+  </section>
+
+  <!-- SECTION 14 -->
+  <section class="sec" id="sec14">
+    <div class="sec-head"><div class="num">14</div>🚚 Atendimento de Pedidos — Logística de Entrega de Químicos</div>
+    <div class="sec-sub">Pedidos de produtos químicos informados no grupo — programação de rota por região</div>
+
+    <div class="callout amber">
+      <div class="ic">⭐</div>
+      <div><div class="t">Regra geral</div>
+      <div class="d">Quando o pedido do cliente for de produtos químicos, informado no grupo de trabalho, a entrega precisa ser programada em rota — nunca despachada isoladamente sem avaliar a região.</div></div>
+    </div>
+
+    <h3 class="subhead">14.1 Fechamento de carga por região</h3>
+    <ul class="plain">
+      <li>Ao receber um pedido isolado de uma região, entrar em contato com outros clientes da mesma região para tentar fechar a carga completa</li>
+      <li>Motivo: despesa de logística — uma entrega isolada gera prejuízo se a rota não estiver otimizada</li>
+      <li>Hoje, em todas as rotas que atendemos, conseguimos ajustar a demanda dessa forma</li>
+    </ul>
+
+    <div class="callout red"><div class="ic">⛔</div>
+      <div><div class="t">Atenção — produtos em contrato</div>
+      <div class="d">Ficar atento com <b>7 dias de antecedência</b> aos produtos que temos obrigação contratual de fornecer. Mesmo nesses casos, usar a mesma lógica de fechamento de carga por região — a logística precisa ser precisa para não gerar prejuízo naquela entrega.</div></div>
+    </div>
+
+    <h3 class="subhead">14.2 Quando não for possível fechar a carga na hora</h3>
+    <ul class="plain">
+      <li>Se não for possível fechar a carga imediatamente, pode-se esperar até mais uma semana para o fechamento</li>
+      <li>Nesse caso, sempre lembrar o cliente de manter um estoque mínimo de <b>15 dias</b>, para dar tempo de organizar as entregas</li>
+      <li>Atenção redobrada nas regiões de Litoral Norte, região de Campinas e Grande São Paulo</li>
+    </ul>
+  </section>
+
+  <div class="foot">Filtratech Ambiental — Versão 1.2 — 2026 · POP Gestão 01 / Gestão 02</div>
 </div>
+
+<script>
+(function(){
+  var input = document.getElementById('pop-search');
+  var countEl = document.getElementById('pop-search-count');
+  if(!input) return;
+  var marks = [];
+  var current = -1;
+
+  function clearMarks(){
+    document.querySelectorAll('mark.pop-hit').forEach(function(m){
+      var parent = m.parentNode;
+      if(!parent) return;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+    marks = [];
+  }
+
+  function shouldSkip(node){
+    return node.classList && (node.classList.contains('nav') || node.classList.contains('pop-search-wrap'));
+  }
+
+  function walk(node, regex, hits){
+    if(node.nodeType === 3){
+      var text = node.nodeValue;
+      regex.lastIndex = 0;
+      if(!regex.test(text)) return;
+      regex.lastIndex = 0;
+      var frag = document.createDocumentFragment();
+      var lastIdx = 0; var m;
+      while((m = regex.exec(text))){
+        if(m.index > lastIdx) frag.appendChild(document.createTextNode(text.slice(lastIdx, m.index)));
+        var mark = document.createElement('mark');
+        mark.className = 'pop-hit';
+        mark.textContent = m[0];
+        frag.appendChild(mark);
+        hits.push(mark);
+        lastIdx = m.index + m[0].length;
+        if (m[0].length === 0) regex.lastIndex++;
+      }
+      if(lastIdx < text.length) frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+      node.parentNode.replaceChild(frag, node);
+    } else if(node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE'){
+      if(shouldSkip(node)) return;
+      Array.prototype.slice.call(node.childNodes).forEach(function(child){ walk(child, regex, hits); });
+    }
+  }
+
+  function doSearch(){
+    clearMarks();
+    current = -1;
+    var q = input.value.trim();
+    if(!q){ countEl.textContent = ''; return; }
+    var esc = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var regex = new RegExp(esc, 'gi');
+    var hits = [];
+    document.querySelectorAll('.wrap').forEach(function(root){ walk(root, regex, hits); });
+    marks = hits;
+    if(marks.length){
+      countEl.textContent = marks.length + ' resultado(s) — Enter para navegar';
+      goTo(0);
+    } else {
+      countEl.textContent = 'Nenhum resultado encontrado';
+    }
+  }
+
+  function goTo(i){
+    if(!marks.length) return;
+    marks.forEach(function(m){ m.classList.remove('active'); });
+    current = (i + marks.length) % marks.length;
+    var m = marks[current];
+    m.classList.add('active');
+    m.scrollIntoView({behavior:'smooth', block:'center'});
+    countEl.textContent = (current+1) + ' de ' + marks.length + ' resultados';
+  }
+
+  var debounceTimer;
+  input.addEventListener('input', function(){
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(doSearch, 250);
+  });
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      if(marks.length) goTo(current + (e.shiftKey ? -1 : 1));
+    } else if(e.key === 'Escape'){
+      input.value = ''; clearMarks(); countEl.textContent = ''; current = -1;
+    }
+  });
+})();
+</script>
